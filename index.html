@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="sv">
 <head>
@@ -10,13 +9,30 @@
     href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
   />
   <style>
-    body { padding: 20px; }
-    table { margin-bottom: 20px; }
-    .pagination li { cursor: pointer; }
+    body { 
+      padding: 10px;
+      font-size: 0.9em;
+    }
+    .container-fluid {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    #resultsTable {
+      font-size: 0.7em;
+      margin-left: 0 !important;
+    }
+    .pagination {
+      font-size: 0.8em;
+    }
+    .pagination li.disabled a,
+    .pagination li.disabled span {
+      pointer-events: none;
+      color: #999;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <h1>Vätternrundan 2023 Results</h1>
     <table class="table table-striped" id="resultsTable">
       <thead>
@@ -63,89 +79,96 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script>
-  const pageSize = 50;
-  let currentPage = 1;
-  let data = [];
+    const pageSize = 50;
+    let currentPage = 1;
+    let data = [];
 
-  function renderTable() {
-    const start = (currentPage - 1) * pageSize;
-    const end = start + pageSize;
-    const pageItems = data.slice(start, end);
+    function renderTable() {
+      const start = (currentPage - 1) * pageSize;
+      const end = start + pageSize;
+      const pageItems = data.slice(start, end);
 
-    const tbody = $('#resultsTable tbody');
-    tbody.empty();
-    for (const row of pageItems) {
-      const tr = $('<tr>');
-      tr.append($('<td>').text(row['Startnr']));
-      tr.append($('<td>').text(row['Name']));
-      tr.append($('<td>').text(row['Ort']));
-      tr.append($('<td>').text(row['Placement']));
-      tr.append($('<td>').text(row['Result']));
-      tr.append($('<td>').text(row['Starttime']));
-      tr.append($('<td>').text(row['Arrival Ödeshög']));
-      tr.append($('<td>').text(row['Split Ödeshög']));
-      tr.append($('<td>').text(row['Speed Ödeshög']));
-      tr.append($('<td>').text(row['Arrival Jönköping']));
-      tr.append($('<td>').text(row['Split Jönköping']));
-      tr.append($('<td>').text(row['Speed Jönköping']));
-      tr.append($('<td>').text(row['Leaving Jönköping']));
-      tr.append($('<td>').text(row['Split Leaving Jönköping']));
-      tr.append($('<td>').text(row['Arrival Hjo']));
-      tr.append($('<td>').text(row['Split Hjo']));
-      tr.append($('<td>').text(row['Speed Hjo']));
-      tr.append($('<td>').text(row['Leaving Hjo']));
-      tr.append($('<td>').text(row['Split Leaving Hjo']));
-      tr.append($('<td>').text(row['Arrival Karlsborg']));
-      tr.append($('<td>').text(row['Split Karlsborg']));
-      tr.append($('<td>').text(row['Speed Karlsborg']));
-      tr.append($('<td>').text(row['Arrival Askersund']));
-      tr.append($('<td>').text(row['Split Askersund']));
-      tr.append($('<td>').text(row['Speed Askersund']));
-      tr.append($('<td>').text(row['Arrival Bona']));
-      tr.append($('<td>').text(row['Split Bona']));
-      tr.append($('<td>').text(row['Speed Bona']));
-      tr.append($('<td>').text(row['Arrival Goal']));
-      tr.append($('<td>').text(row['Split Goal']));
-      tr.append($('<td>').text(row['Speed Goal']));
-
-      tbody.append(tr);
+      const tbody = $('#resultsTable tbody').empty();
+      for (const row of pageItems) {
+        const tr = $('<tr>');
+        tr.append($('<td>').text(row['Startnr']));
+        tr.append($('<td>').text(row['Name']));
+        tr.append($('<td>').text(row['Ort']));
+        tr.append($('<td>').text(row['Placement']));
+        tr.append($('<td>').text(row['Result']));
+        tr.append($('<td>').text(row['Starttime']));
+        tr.append($('<td>').text(row['Arrival Ödeshög']));
+        tr.append($('<td>').text(row['Split Ödeshög']));
+        tr.append($('<td>').text(row['Speed Ödeshög']));
+        tr.append($('<td>').text(row['Arrival Jönköping']));
+        tr.append($('<td>').text(row['Split Jönköping']));
+        tr.append($('<td>').text(row['Speed Jönköping']));
+        tr.append($('<td>').text(row['Leaving Jönköping']));
+        tr.append($('<td>').text(row['Split Leaving Jönköping']));
+        tr.append($('<td>').text(row['Arrival Hjo']));
+        tr.append($('<td>').text(row['Split Hjo']));
+        tr.append($('<td>').text(row['Speed Hjo']));
+        tr.append($('<td>').text(row['Leaving Hjo']));
+        tr.append($('<td>').text(row['Split Leaving Hjo']));
+        tr.append($('<td>').text(row['Arrival Karlsborg']));
+        tr.append($('<td>').text(row['Split Karlsborg']));
+        tr.append($('<td>').text(row['Speed Karlsborg']));
+        tr.append($('<td>').text(row['Arrival Askersund']));
+        tr.append($('<td>').text(row['Split Askersund']));
+        tr.append($('<td>').text(row['Speed Askersund']));
+        tr.append($('<td>').text(row['Arrival Bona']));
+        tr.append($('<td>').text(row['Split Bona']));
+        tr.append($('<td>').text(row['Speed Bona']));
+        tr.append($('<td>').text(row['Arrival Goal']));
+        tr.append($('<td>').text(row['Split Goal']));
+        tr.append($('<td>').text(row['Speed Goal']));
+        tbody.append(tr);
+      }
     }
-  }
 
-  function renderPagination() {
-    const pageCount = Math.ceil(data.length / pageSize);
-    const ul = $('#pagination');
-    ul.empty();
+    function renderPagination() {
+      const pageCount = Math.ceil(data.length / pageSize);
+      const ul = $('#pagination').empty();
 
-    // Prev
-    ul.append($('<li>').toggleClass('disabled', currentPage === 1)
-      .append($('<a>').html('&laquo;')
-        .click(() => { if (currentPage > 1) { currentPage--; update(); } })));
-
-    for (let i = 1; i <= pageCount; i++) {
+      // Prev
       ul.append(
-        $('<li>').toggleClass('active', i === currentPage)
-          .append($('<a>').text(i).click(() => { currentPage = i; update(); }))
+        $('<li>').toggleClass('disabled', currentPage === 1)
+          .append($('<a>').html('&laquo;').click(() => {
+            if (currentPage > 1) { currentPage--; update(); }
+          }))
+      );
+
+      // Pages
+      for (let i = 1; i <= pageCount; i++) {
+        ul.append(
+          $('<li>').toggleClass('active', i === currentPage)
+            .append($('<a>').text(i).click(() => {
+              currentPage = i; update();
+            }))
+        );
+      }
+
+      // Next
+      ul.append(
+        $('<li>').toggleClass('disabled', currentPage === pageCount)
+          .append($('<a>').html('&raquo;').click(() => {
+            if (currentPage < pageCount) { currentPage++; update(); }
+          }))
       );
     }
 
-    // Next
-    ul.append($('<li>').toggleClass('disabled', currentPage === pageCount)
-      .append($('<a>').html('&raquo;')
-        .click(() => { if (currentPage < pageCount) { currentPage++; update(); } })));
-  }
+    function update() {
+      renderTable();
+      renderPagination();
+    }
 
-  function update() {
-    renderTable();
-    renderPagination();
-  }
-
-  $(document).ready(function() {
-    $.getJSON('https://raw.githubusercontent.com/FreddanL74/Vattern2023/refs/heads/main/vattern_data.json', function(json) {
-      data = json;
-      update();
+    $(document).ready(function() {
+      $.getJSON('https://raw.githubusercontent.com/FreddanL74/Vattern2023/main/vattern_data.json', function(json) {
+        data = json;
+        update();
+      });
     });
-  });
   </script>
 </body>
 </html>
+
